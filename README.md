@@ -12,3 +12,7 @@ Advanced Фичи:
 * Добавление в избранное(экран + локальное хранение)
 
 Example https://onlayn-radio.ru
+
+API
+
+https://www.last.fm/ru/api/authentication
