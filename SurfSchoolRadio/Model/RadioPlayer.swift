@@ -78,7 +78,7 @@ open class RadioPlayer: NSObject {
     
     open var enableAlbum = true
     
-    open var artworkSize = 100
+    open var albumSize = 100
     
     
     open var isPlaying: Bool {

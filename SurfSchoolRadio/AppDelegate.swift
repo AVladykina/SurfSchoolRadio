@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         RadioPlayer.shared.isAutoPlay = true
         RadioPlayer.shared.enableAlbum = true
-        RadioPlayer.shared.artworkSize = 600
+        RadioPlayer.shared.albumSize = 600
         
 
         if let navigationController = window?.rootViewController as? UINavigationController {
