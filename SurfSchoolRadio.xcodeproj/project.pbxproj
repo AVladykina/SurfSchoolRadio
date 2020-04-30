@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		830F9EFF24509D0D00F93F37 /* StationTableViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830F9EFD24509D0D00F93F37 /* StationTableViewCell2.swift */; };
-		830F9F0024509D0D00F93F37 /* StationTableViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 830F9EFE24509D0D00F93F37 /* StationTableViewCell2.xib */; };
+		830F9EFF24509D0D00F93F37 /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830F9EFD24509D0D00F93F37 /* StationTableViewCell.swift */; };
+		830F9F0024509D0D00F93F37 /* StationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 830F9EFE24509D0D00F93F37 /* StationTableViewCell.xib */; };
 		833D2E8B24472CB600F93F37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D2E8A24472CB600F93F37 /* AppDelegate.swift */; };
 		833D2E9224472CB700F93F37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833D2E9124472CB700F93F37 /* Assets.xcassets */; };
 		833D2E9524472CB700F93F37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833D2E9324472CB700F93F37 /* LaunchScreen.storyboard */; };
@@ -18,7 +18,7 @@
 		8370B40824532EFD00F93F37 /* RadioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B40624532EFD00F93F37 /* RadioPlayer.swift */; };
 		8370B40924532EFD00F93F37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B40724532EFD00F93F37 /* Reachability.swift */; };
 		8370B40B24544C8500F93F37 /* SurfPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B40A24544C8500F93F37 /* SurfPlayer.swift */; };
-		8370B40D24547FCE00F93F37 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8370B40C24547FCE00F93F37 /* NothingFoundCell.xib */; };
+		8370B416245B573800F93F37 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8370B415245B573800F93F37 /* NothingFoundCell.xib */; };
 		8383B9BC2449B1E000F93F37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8383B9BA2449B1E000F93F37 /* Main.storyboard */; };
 		8383B9C0244AF19F00F93F37 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8383B9BF244AF19F00F93F37 /* RadioStation.swift */; };
 		8383B9C4244B338F00F93F37 /* NowPlayingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8383B9C3244B338F00F93F37 /* NowPlayingViewController.swift */; };
@@ -44,8 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		830F9EFD24509D0D00F93F37 /* StationTableViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewCell2.swift; sourceTree = "<group>"; };
-		830F9EFE24509D0D00F93F37 /* StationTableViewCell2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StationTableViewCell2.xib; sourceTree = "<group>"; };
+		830F9EFD24509D0D00F93F37 /* StationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
+		830F9EFE24509D0D00F93F37 /* StationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StationTableViewCell.xib; sourceTree = "<group>"; };
 		833D2E8724472CB600F93F37 /* SurfSchoolRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurfSchoolRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		833D2E8A24472CB600F93F37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		833D2E9124472CB700F93F37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		8370B40624532EFD00F93F37 /* RadioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioPlayer.swift; sourceTree = "<group>"; };
 		8370B40724532EFD00F93F37 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		8370B40A24544C8500F93F37 /* SurfPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfPlayer.swift; sourceTree = "<group>"; };
-		8370B40C24547FCE00F93F37 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NothingFoundCell.xib; path = SurfSchoolRadio/NothingFoundCell.xib; sourceTree = SOURCE_ROOT; };
+		8370B415245B573800F93F37 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		8383B9BB2449B1E000F93F37 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SurfSchoolRadio/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8383B9BF244AF19F00F93F37 /* RadioStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
 		8383B9C3244B338F00F93F37 /* NowPlayingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingViewController.swift; sourceTree = "<group>"; };
@@ -165,9 +165,9 @@
 			children = (
 				8383B9C5244F74C400F93F37 /* StationListViewController.swift */,
 				8383B9C3244B338F00F93F37 /* NowPlayingViewController.swift */,
-				830F9EFD24509D0D00F93F37 /* StationTableViewCell2.swift */,
-				830F9EFE24509D0D00F93F37 /* StationTableViewCell2.xib */,
-				8370B40C24547FCE00F93F37 /* NothingFoundCell.xib */,
+				830F9EFD24509D0D00F93F37 /* StationTableViewCell.swift */,
+				830F9EFE24509D0D00F93F37 /* StationTableViewCell.xib */,
+				8370B415245B573800F93F37 /* NothingFoundCell.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -284,9 +284,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8383B9BC2449B1E000F93F37 /* Main.storyboard in Resources */,
-				830F9F0024509D0D00F93F37 /* StationTableViewCell2.xib in Resources */,
+				830F9F0024509D0D00F93F37 /* StationTableViewCell.xib in Resources */,
+				8370B416245B573800F93F37 /* NothingFoundCell.xib in Resources */,
 				833D2E9524472CB700F93F37 /* LaunchScreen.storyboard in Resources */,
-				8370B40D24547FCE00F93F37 /* NothingFoundCell.xib in Resources */,
 				833D2E9224472CB700F93F37 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,7 +321,7 @@
 				8383B9C6244F74C400F93F37 /* StationListViewController.swift in Sources */,
 				8370B40B24544C8500F93F37 /* SurfPlayer.swift in Sources */,
 				8370B40924532EFD00F93F37 /* Reachability.swift in Sources */,
-				830F9EFF24509D0D00F93F37 /* StationTableViewCell2.swift in Sources */,
+				830F9EFF24509D0D00F93F37 /* StationTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

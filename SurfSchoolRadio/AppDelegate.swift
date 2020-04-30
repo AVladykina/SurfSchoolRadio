@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UIApplication.shared.beginReceivingRemoteControlEvents()
-        
+
+
         RadioPlayer.shared.isAutoPlay = true
         RadioPlayer.shared.enableAlbum = true
         RadioPlayer.shared.albumSize = 600

@@ -24,8 +24,6 @@ enum NetworkConstants {
     
 }
 
-let searchable = true
-
 
 
 

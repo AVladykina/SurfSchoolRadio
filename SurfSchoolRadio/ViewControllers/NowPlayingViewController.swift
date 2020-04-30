@@ -38,19 +38,19 @@ class NowPlayingViewController: UIViewController {
     @IBOutlet weak var volumeView: UIView!
     
     
-    var currentStation: RadioStation!
-    var currentTrack: Track!
+    private var currentStation: RadioStation!
+    private var currentTrack: Track!
     
-    var newStation = true
+    private var newStation = true
     
-    var mpVolumeSlider: UISlider?
+    private var mpVolumeSlider: UISlider?
     
-    let radioPlayer = RadioPlayer.shared
+    private let radioPlayer = RadioPlayer.shared
    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.title = currentStation.name
     
         albumImageView.image = UIImage(named: "currentTrack.albumImage")
@@ -59,9 +59,6 @@ class NowPlayingViewController: UIViewController {
         setupVolumeSlider()
         
         newStation ? stationDidChange() : playerStateDidChange(radioPlayer.state, animate: false)
-        
-        
-        
          }
     
     
@@ -178,19 +175,14 @@ class NowPlayingViewController: UIViewController {
         updateLabels(with: message, animate: animate)
     }
     
-    
-    
-    
     func updateLabels(with statusMessage: String? = nil, animate: Bool = true) {
         
         guard let statusMessage = statusMessage else {
             
             songLabel.text = currentTrack.title
             artistLabel.text = currentTrack.artist
-        
             return
         }
-        
         guard songLabel.text != statusMessage else { return }
         
         songLabel.text = statusMessage

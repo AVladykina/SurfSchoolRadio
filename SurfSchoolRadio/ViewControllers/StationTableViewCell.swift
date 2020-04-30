@@ -1,5 +1,5 @@
 //
-//  StationTableViewCell2.swift
+//  StationTableViewCell.swift
 //  SurfSchoolRadio
 //
 //  Created by Nastya on 4/22/20.
@@ -8,14 +8,12 @@
 
 import UIKit
 
-class StationTableViewCell2: UITableViewCell {
+class StationTableViewCell: UITableViewCell {
 
     @IBOutlet weak var stationImageView: UIImageView!
     
     @IBOutlet weak var stationNameLabel: UILabel!
     @IBOutlet weak var stationDescLabel: UILabel!
-    
-    
     
     var downloadTask: URLSessionDownloadTask?
     
@@ -23,8 +21,7 @@ class StationTableViewCell2: UITableViewCell {
     
             stationNameLabel.text = station.name
             stationDescLabel.text = station.desc
-    
-    
+
             DispatchQueue.main.async {
                 if let url = URL(string: station.imageURL) {
                     if let data = try? Data(contentsOf: url) {
