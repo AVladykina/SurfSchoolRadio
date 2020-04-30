@@ -15,7 +15,7 @@ class StationListViewController: UIViewController {
     
     weak var nowPlayingViewController: NowPlayingViewController?
    
-    let surfPlayer = SurfPlayer()
+    let radioPlayer = SurfPlayer()
     
     var stations = [RadioStation]() {
         didSet {
@@ -44,7 +44,7 @@ class StationListViewController: UIViewController {
         let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
         
-        surfPlayer.delegate = self as? SurfPlayerDelegate
+        radioPlayer.delegate = self as? SurfPlayerDelegate
         
         
         tableView.backgroundColor = .clear
@@ -78,31 +78,36 @@ class StationListViewController: UIViewController {
         let newStation: Bool
         
         if let indexPath = (sender as? IndexPath) {
-            surfPlayer.station = searchController.isActive ? searchedStations[indexPath.row] : stations[indexPath.row]
-            newStation = surfPlayer.station != previousStation
-            previousStation = surfPlayer.station
+            radioPlayer.station = searchController.isActive ? searchedStations[indexPath.row] : stations[indexPath.row]
+            newStation = radioPlayer.station != previousStation
+            previousStation = radioPlayer.station
         } else {
             
             newStation = false
         }
         
         nowPlayingViewController = nowPlayingVC
-        nowPlayingVC.load(station: surfPlayer.station, track: surfPlayer.track, isNewStation: newStation)
-        nowPlayingVC.delegate = self as? NowPlayingViewControllerDelegate
+        nowPlayingVC.load(station: radioPlayer.station, track: radioPlayer.track, isNewStation: newStation)
+        nowPlayingVC.delegate = self
     }
     
     private func stationsDidUpdate() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            guard let currentStation = self.surfPlayer.station else { return }
+            guard let currentStation = self.radioPlayer.station else { return }
     
             if self.stations.firstIndex(of: currentStation) == nil { self.resetCurrentStation() }
         }
     }
     
     private func resetCurrentStation() {
-        surfPlayer.resetRadioPlayer()
+        radioPlayer.resetRadioPlayer()
         navigationItem.rightBarButtonItem = nil
+    }
+    
+    private func getIndex(of station: RadioStation?) -> Int? {
+        guard let station = station, let index = stations.firstIndex(of: station) else { return nil }
+        return index
     }
     
 
@@ -117,9 +122,9 @@ extension StationListViewController: UITableViewDataSource {
         return 90.0
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 1
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -197,6 +202,40 @@ extension StationListViewController: UISearchResultsUpdating {
 }
 
 
+
+extension StationListViewController: NowPlayingViewControllerDelegate {
+    
+    func didPressPlayingButton() {
+        radioPlayer.surfPlayer.togglePlaying()
+    }
+    
+    func didPressStopButton() {
+        radioPlayer.surfPlayer.stop()
+    }
+    
+    func didPressNextButton() {
+        guard let index = getIndex(of: radioPlayer.station) else { return }
+        radioPlayer.station = (index + 1 == stations.count) ? stations[0] : stations[index + 1]
+        handleRemoteStationChange()
+    }
+    
+    func didPressPreviousButton() {
+        guard let index = getIndex(of: radioPlayer.station) else { return }
+        radioPlayer.station = (index == 0) ? stations.last : stations[index - 1]
+        handleRemoteStationChange()
+    }
+    
+    func handleRemoteStationChange() {
+        if let nowPlayingVC = nowPlayingViewController {
+            nowPlayingVC.load(station: radioPlayer.station, track: radioPlayer.track)
+            nowPlayingVC.stationDidChange()
+        } else if let station = radioPlayer.station {
+            radioPlayer.surfPlayer.radioURL = URL(string: station.streamURL)
+        }
+    }
+    
+    
+}
 
 
 
