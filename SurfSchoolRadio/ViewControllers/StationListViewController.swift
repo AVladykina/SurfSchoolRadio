@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 import AVFoundation
 
 class StationListViewController: UIViewController {
@@ -40,13 +41,14 @@ class StationListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
 
-        radioPlayer.delegate = self as? SurfPlayerDelegate
+        let cellNib = UINib(nibName: "StationTableViewCell", bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: "StationCell")
 
-        tableView.backgroundColor = .clear
-        tableView.backgroundView = nil
+        radioPlayer.delegate = self
+
+        loadStationsFromJSON()
+
         tableView.separatorStyle = .none
 
         do {
@@ -67,6 +69,26 @@ class StationListViewController: UIViewController {
         title = "Surf Radio"
     }
 
+    func loadStationsFromJSON() {
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DataManager.getStationDataWithSuccess() { (data) in
+
+            defer {
+                DispatchQueue.main.async { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
+            }
+
+            print("Stations JSON Found")
+
+            guard let data = data, let jsonDictionary = try? JSONDecoder().decode([String: [RadioStation]].self, from: data), let stationsArray = jsonDictionary["station"] else {
+                print("JSON Station Loading Error")
+                return
+            }
+
+            self.stations = stationsArray
+        }
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "NowPlaying", let nowPlayingVC = segue.destination as? NowPlayingViewController else { return }
 
@@ -84,7 +106,7 @@ class StationListViewController: UIViewController {
         }
 
         nowPlayingViewController = nowPlayingVC
-        nowPlayingVC.load(station: radioPlayer.station, track: radioPlayer.track, isNewStation: newStation)
+        nowPlayingVC.load(station: radioPlayer.station, isNewStation: newStation)
         nowPlayingVC.delegate = self
     }
 
@@ -106,10 +128,12 @@ class StationListViewController: UIViewController {
         guard let station = station, let index = stations.firstIndex(of: station) else { return nil }
         return index
     }
+    
 }
 
 extension StationListViewController: UITableViewDataSource {
 
+    @objc(tableView:heightForRowAtIndexPath:)
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90.0
     }
@@ -135,7 +159,6 @@ extension StationListViewController: UITableViewDataSource {
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "StationCell", for: indexPath) as! StationTableViewCell
 
-
             let station = searchController.isActive ? searchedStations[indexPath.row] : stations[indexPath.row]
             cell.configureStationCell(station: station)
 
@@ -151,11 +174,10 @@ extension StationListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "NowPlaying", sender: indexPath)
     }
+    
 }
 
 extension StationListViewController: UISearchResultsUpdating {
-
-
     func setupSearchController() {
 
         searchController.searchResultsUpdater = self
@@ -186,7 +208,23 @@ extension StationListViewController: UISearchResultsUpdating {
     }
 }
 
+extension StationListViewController: SurfPlayerDelegate {
+    func trackAlbumDidUpdate(_ track: Track?) {
+        nowPlayingViewController?.updateTrackAlbum(with: track)
+    }
 
+    func playerStateDidChange(_ playerState: RadioPlayerState) {
+        nowPlayingViewController?.playerStateDidChange(playerState, animate: true)
+    }
+
+    func playbackStateDidChange(_ playbackState: RadioPlaybackState) {
+        nowPlayingViewController?.playbackStateDidChange(playbackState, animate: true)
+    }
+
+    func trackDidUpdate(_ track: Track?) {
+        nowPlayingViewController?.updateTrackMetadata(with: track)
+    }
+}
 
 extension StationListViewController: NowPlayingViewControllerDelegate {
 
@@ -212,7 +250,7 @@ extension StationListViewController: NowPlayingViewControllerDelegate {
 
     func handleRemoteStationChange() {
         if let nowPlayingVC = nowPlayingViewController {
-            nowPlayingVC.load(station: radioPlayer.station, track: radioPlayer.track)
+            nowPlayingVC.load(station: radioPlayer.station)
             nowPlayingVC.stationDidChange()
         } else if let station = radioPlayer.station {
             radioPlayer.surfPlayer.radioURL = URL(string: station.streamURL)

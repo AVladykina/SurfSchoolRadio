@@ -14,13 +14,16 @@
 		833D2E9524472CB700F93F37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833D2E9324472CB700F93F37 /* LaunchScreen.storyboard */; };
 		833D2EA024472CB700F93F37 /* SurfSchoolRadioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D2E9F24472CB700F93F37 /* SurfSchoolRadioTests.swift */; };
 		833D2EAB24472CB700F93F37 /* SurfSchoolRadioUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833D2EAA24472CB700F93F37 /* SurfSchoolRadioUITests.swift */; };
-		8370B3FF2450D74700F93F37 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B3FE2450D74700F93F37 /* Track.swift */; };
-		8370B40824532EFD00F93F37 /* RadioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B40624532EFD00F93F37 /* RadioPlayer.swift */; };
-		8370B40924532EFD00F93F37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B40724532EFD00F93F37 /* Reachability.swift */; };
-		8370B40B24544C8500F93F37 /* SurfPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B40A24544C8500F93F37 /* SurfPlayer.swift */; };
 		8370B416245B573800F93F37 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8370B415245B573800F93F37 /* NothingFoundCell.xib */; };
+		8370B418245B6EFA00F93F37 /* LastfmAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B417245B6EFA00F93F37 /* LastfmAPI.swift */; };
+		8370B43D245EB7C500F93F37 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B438245EB7C400F93F37 /* Track.swift */; };
+		8370B43E245EB7C500F93F37 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B439245EB7C400F93F37 /* Reachability.swift */; };
+		8370B43F245EB7C500F93F37 /* RadioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B43A245EB7C400F93F37 /* RadioPlayer.swift */; };
+		8370B440245EB7C500F93F37 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B43B245EB7C400F93F37 /* RadioStation.swift */; };
+		8370B441245EB7C500F93F37 /* SurfPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B43C245EB7C400F93F37 /* SurfPlayer.swift */; };
+		8370B4472460970B00F93F37 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = 8370B4462460970B00F93F37 /* stations.json */; };
+		8370B4492460997700F93F37 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370B4482460997700F93F37 /* DataManager.swift */; };
 		8383B9BC2449B1E000F93F37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8383B9BA2449B1E000F93F37 /* Main.storyboard */; };
-		8383B9C0244AF19F00F93F37 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8383B9BF244AF19F00F93F37 /* RadioStation.swift */; };
 		8383B9C4244B338F00F93F37 /* NowPlayingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8383B9C3244B338F00F93F37 /* NowPlayingViewController.swift */; };
 		8383B9C6244F74C400F93F37 /* StationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8383B9C5244F74C400F93F37 /* StationListViewController.swift */; };
 		83D981DD2448F84E00F93F37 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D981DC2448F84E00F93F37 /* Settings.swift */; };
@@ -57,13 +60,16 @@
 		833D2EA624472CB700F93F37 /* SurfSchoolRadioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurfSchoolRadioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		833D2EAA24472CB700F93F37 /* SurfSchoolRadioUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfSchoolRadioUITests.swift; sourceTree = "<group>"; };
 		833D2EAC24472CB700F93F37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8370B3FE2450D74700F93F37 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		8370B40624532EFD00F93F37 /* RadioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioPlayer.swift; sourceTree = "<group>"; };
-		8370B40724532EFD00F93F37 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		8370B40A24544C8500F93F37 /* SurfPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfPlayer.swift; sourceTree = "<group>"; };
 		8370B415245B573800F93F37 /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
+		8370B417245B6EFA00F93F37 /* LastfmAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastfmAPI.swift; sourceTree = "<group>"; };
+		8370B438245EB7C400F93F37 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		8370B439245EB7C400F93F37 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		8370B43A245EB7C400F93F37 /* RadioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioPlayer.swift; sourceTree = "<group>"; };
+		8370B43B245EB7C400F93F37 /* RadioStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
+		8370B43C245EB7C400F93F37 /* SurfPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurfPlayer.swift; sourceTree = "<group>"; };
+		8370B4462460970B00F93F37 /* stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
+		8370B4482460997700F93F37 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		8383B9BB2449B1E000F93F37 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SurfSchoolRadio/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8383B9BF244AF19F00F93F37 /* RadioStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
 		8383B9C3244B338F00F93F37 /* NowPlayingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingViewController.swift; sourceTree = "<group>"; };
 		8383B9C5244F74C400F93F37 /* StationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListViewController.swift; sourceTree = "<group>"; };
 		83D981DC2448F84E00F93F37 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -117,9 +123,10 @@
 		833D2E8924472CB600F93F37 /* SurfSchoolRadio */ = {
 			isa = PBXGroup;
 			children = (
+				8370B445246096CA00F93F37 /* Data */,
+				8370B437245EB7C400F93F37 /* Model */,
 				8370B4122455A0D500F93F37 /* Network */,
 				8370B4002450D94D00F93F37 /* ViewControllers */,
-				8370B3FD2450D6E700F93F37 /* Model */,
 				833D2E8A24472CB600F93F37 /* AppDelegate.swift */,
 				8383B9BA2449B1E000F93F37 /* Main.storyboard */,
 				833D2E9324472CB700F93F37 /* LaunchScreen.storyboard */,
@@ -148,18 +155,6 @@
 			path = SurfSchoolRadioUITests;
 			sourceTree = "<group>";
 		};
-		8370B3FD2450D6E700F93F37 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				8370B40A24544C8500F93F37 /* SurfPlayer.swift */,
-				8370B40624532EFD00F93F37 /* RadioPlayer.swift */,
-				8370B40724532EFD00F93F37 /* Reachability.swift */,
-				8383B9BF244AF19F00F93F37 /* RadioStation.swift */,
-				8370B3FE2450D74700F93F37 /* Track.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		8370B4002450D94D00F93F37 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,8 +170,30 @@
 		8370B4122455A0D500F93F37 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				8370B417245B6EFA00F93F37 /* LastfmAPI.swift */,
+				8370B4482460997700F93F37 /* DataManager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		8370B437245EB7C400F93F37 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8370B438245EB7C400F93F37 /* Track.swift */,
+				8370B43B245EB7C400F93F37 /* RadioStation.swift */,
+				8370B439245EB7C400F93F37 /* Reachability.swift */,
+				8370B43A245EB7C400F93F37 /* RadioPlayer.swift */,
+				8370B43C245EB7C400F93F37 /* SurfPlayer.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8370B445246096CA00F93F37 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8370B4462460970B00F93F37 /* stations.json */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +206,8 @@
 				833D2E8324472CB600F93F37 /* Sources */,
 				833D2E8424472CB600F93F37 /* Frameworks */,
 				833D2E8524472CB600F93F37 /* Resources */,
+				8370B419245D892D00F93F37 /* ShellScript */,
+				8370B41A245D8C7E00F93F37 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -283,6 +302,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8370B4472460970B00F93F37 /* stations.json in Resources */,
 				8383B9BC2449B1E000F93F37 /* Main.storyboard in Resources */,
 				830F9F0024509D0D00F93F37 /* StationTableViewCell.xib in Resources */,
 				8370B416245B573800F93F37 /* NothingFoundCell.xib in Resources */,
@@ -307,21 +327,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8370B419245D892D00F93F37 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash \n\nset -e\n\ndefaults write com.apple.dt.Xcode DVTTextEditorTrimTrailingWhitespace -bool YES\ndefaults write com.apple.dt.Xcode DVTTextEditorTrimWhitespaceOnlyLines -bool YES\n\ndefaults write com.apple.dt.Xcode DVTTextIndentTabWidth -int 4\ndefaults write com.apple.dt.Xcode DVTTextIndentWidth -int 4\n\ndefaults write com.apple.dt.Xcode DVTTextPageGuideLocation -int 120\n";
+		};
+		8370B41A245D8C7E00F93F37 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		833D2E8324472CB600F93F37 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8383B9C4244B338F00F93F37 /* NowPlayingViewController.swift in Sources */,
+				8370B4492460997700F93F37 /* DataManager.swift in Sources */,
 				83D981DD2448F84E00F93F37 /* Settings.swift in Sources */,
-				8383B9C0244AF19F00F93F37 /* RadioStation.swift in Sources */,
-				8370B3FF2450D74700F93F37 /* Track.swift in Sources */,
 				833D2E8B24472CB600F93F37 /* AppDelegate.swift in Sources */,
-				8370B40824532EFD00F93F37 /* RadioPlayer.swift in Sources */,
 				8383B9C6244F74C400F93F37 /* StationListViewController.swift in Sources */,
-				8370B40B24544C8500F93F37 /* SurfPlayer.swift in Sources */,
-				8370B40924532EFD00F93F37 /* Reachability.swift in Sources */,
+				8370B418245B6EFA00F93F37 /* LastfmAPI.swift in Sources */,
 				830F9EFF24509D0D00F93F37 /* StationTableViewCell.swift in Sources */,
+				8370B43F245EB7C500F93F37 /* RadioPlayer.swift in Sources */,
+				8370B43E245EB7C500F93F37 /* Reachability.swift in Sources */,
+				8370B441245EB7C500F93F37 /* SurfPlayer.swift in Sources */,
+				8370B440245EB7C500F93F37 /* RadioStation.swift in Sources */,
+				8370B43D245EB7C500F93F37 /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

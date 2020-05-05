@@ -23,10 +23,13 @@
                             </imageView>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuF-or-Bsd">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="L0z-eC-pwU"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="TKv-te-tCT"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <constraints>
@@ -44,17 +47,17 @@
                     <navigationItem key="navigationItem" title="Surf Radio" id="C8Z-U4-Tco"/>
                     <connections>
                         <outlet property="tableView" destination="wuF-or-Bsd" id="n61-kr-VpN"/>
-                        <segue destination="rZs-Ua-7fu" kind="show" identifier="NowPlaying" id="PB5-5L-G9X"/>
+                        <segue destination="rZs-Ua-7fu" kind="show" identifier="NowPlaying" id="nfM-LD-STS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2015.2" y="114.69265367316342"/>
         </scene>
-        <!--Records-->
+        <!--Now Playing View-->
         <scene sceneID="SOF-c9-cxr">
             <objects>
-                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="rZs-Ua-7fu" customClass="NowPlayingViewController" customModule="SurfSchoolRadio" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="rZs-Ua-7fu" userLabel="Now Playing View" customClass="NowPlayingViewController" customModule="SurfSchoolRadio" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qEC-Ar-QJj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -169,7 +172,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="uBH-0e-xx8" userLabel="Label Stack View">
                                 <rect key="frame" x="122" y="496.5" width="131" height="74.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="b2T-4J-Ojy" userLabel="Song Label">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="1.5" translatesAutoresizingMaskIntoConstraints="NO" id="b2T-4J-Ojy" userLabel="Song Label">
                                         <rect key="frame" x="0.0" y="0.0" width="131" height="31.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

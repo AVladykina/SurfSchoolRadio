@@ -10,7 +10,7 @@
 import UIKit
 import MediaPlayer
 import AVFoundation
-
+import AVKit
 
 
 protocol NowPlayingViewControllerDelegate: class {
@@ -42,19 +42,24 @@ class NowPlayingViewController: UIViewController {
     private var currentTrack: Track!
     
     private var newStation = true
-    
-    private var mpVolumeSlider: UISlider?
-    
+    private var nowPlayingImageView: UIImageView!
+
     private let radioPlayer = RadioPlayer.shared
-   
+
+    private var mpVolumeSlider: UISlider?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = currentStation.name
+        self.title = currentStation?.name ?? "Station name"
     
-        albumImageView.image = UIImage(named: "currentTrack.albumImage")
-        
+        DispatchQueue.main.async {
+            if let url = URL(string: self.currentStation.imageURL) {
+                if let data = try? Data(contentsOf: url) {
+                    self.albumImageView.image = UIImage(data: data) ?? UIImage(named: "stationImage")
+                            }
+                        }
+                    }
 
         setupVolumeSlider()
         
@@ -84,8 +89,14 @@ class NowPlayingViewController: UIViewController {
     
     func stationDidChange() {
         radioPlayer.radioURL = URL(string: currentStation.streamURL)
-            albumImageView.image = currentTrack.albumImage
-            title = currentStation.name
+        DispatchQueue.main.async {
+            if let url = URL(string: self.currentStation.imageURL) {
+                if let data = try? Data(contentsOf: url) {
+                    self.albumImageView.image = UIImage(data: data) ?? UIImage(named: "stationImage")
+                }
+            }
+        }
+        title = currentStation.name
     }
 
     
@@ -106,19 +117,19 @@ class NowPlayingViewController: UIViewController {
     }
     
     
-    func load(station: RadioStation?, track: Track?, isNewStation: Bool = true) {
+    func load(station: RadioStation?, isNewStation: Bool = true) {
         guard let station = station else { return }
         
         currentStation = station
-        currentTrack = track
+//        currentTrack = track
         newStation = isNewStation
     }
     
     func updateTrackMetadata(with track: Track?) {
         guard let track = track else { return }
         
-        currentTrack.artist = track.artist
-        currentTrack.title = track.title
+        currentTrack?.artist = track.artist
+        currentTrack?.title = track.title
         
         updateLabels()
     }
@@ -126,10 +137,10 @@ class NowPlayingViewController: UIViewController {
     func updateTrackAlbum(with track: Track?) {
         guard let track = track else { return }
         
-        currentTrack.albumImage = track.albumImage
-        currentTrack.albumLoaded = track.albumLoaded
+        currentTrack?.albumImage = track.albumImage
+        currentTrack?.albumLoaded = track.albumLoaded
         
-        albumImageView.image = currentTrack.albumImage
+        albumImageView.image = currentTrack?.albumImage
         
         view.setNeedsDisplay()
     }
@@ -152,7 +163,7 @@ class NowPlayingViewController: UIViewController {
             message = "Station Stopped..."
         }
         
-        updateLabels(with: message, animate: animate)
+        updateLabels(with: message)
         isPlayingDidChange(radioPlayer.isPlaying)
     }
     
@@ -172,21 +183,21 @@ class NowPlayingViewController: UIViewController {
             message = "Error Playing"
         }
         
-        updateLabels(with: message, animate: animate)
+        updateLabels(with: message)
     }
     
-    func updateLabels(with statusMessage: String? = nil, animate: Bool = true) {
+    func updateLabels(with statusMessage: String? = nil) {
         
         guard let statusMessage = statusMessage else {
             
-            songLabel.text = currentTrack.title
-            artistLabel.text = currentTrack.artist
+            songLabel.text = currentStation.desc
+            artistLabel.text = currentStation.name
             return
         }
         guard songLabel.text != statusMessage else { return }
         
         songLabel.text = statusMessage
-        artistLabel.text = currentStation.name
+        artistLabel.text = currentStation?.name
         
     }
 }
