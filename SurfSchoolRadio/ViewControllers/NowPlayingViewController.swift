@@ -37,14 +37,14 @@ class NowPlayingViewController: UIViewController {
     
     @IBOutlet weak var volumeView: UIView!
 
-    var currentStation: RadioStation!
-    var currentTrack: Track!
+    private var currentStation: RadioStation!
+    private var currentTrack: Track!
 
-    var newStation = true
-    var nowPlayingImageView: UIImageView!
-    let radioPlayer = RadioPlayer.shared
+    private var newStation = true
+    private var nowPlayingImageView: UIImageView!
+    private let radioPlayer = RadioPlayer.shared
 
-    var mpVolumeSlider: UISlider?
+    private var mpVolumeSlider: UISlider?
 
     override func viewDidLoad() {
         super.viewDidLoad()
