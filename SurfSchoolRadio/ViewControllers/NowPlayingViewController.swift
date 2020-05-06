@@ -36,124 +36,108 @@ class NowPlayingViewController: UIViewController {
     @IBOutlet weak var artistLabel: UILabel!
     
     @IBOutlet weak var volumeView: UIView!
-    
-    
-    private var currentStation: RadioStation!
-    private var currentTrack: Track!
-    
-    private var newStation = true
-    private var nowPlayingImageView: UIImageView!
 
-    private let radioPlayer = RadioPlayer.shared
+    var currentStation: RadioStation!
+    var currentTrack: Track!
 
-    private var mpVolumeSlider: UISlider?
-    
+    var newStation = true
+    var nowPlayingImageView: UIImageView!
+    let radioPlayer = RadioPlayer.shared
+
+    var mpVolumeSlider: UISlider?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = currentStation?.name ?? "Station name"
-    
-        DispatchQueue.main.async {
-            if let url = URL(string: self.currentStation.imageURL) {
-                if let data = try? Data(contentsOf: url) {
-                    self.albumImageView.image = UIImage(data: data) ?? UIImage(named: "stationImage")
-                            }
-                        }
-                    }
+        self.title = currentStation.name
+        albumImageView.image = currentTrack.albumImage
+
+        newStation ? stationDidChange() : playerStateDidChange(radioPlayer.state, animate: false)
 
         setupVolumeSlider()
-        
-        newStation ? stationDidChange() : playerStateDidChange(radioPlayer.state, animate: false)
-         }
-    
-    
+
+        previousButton.isHidden = true
+        nextButton.isHidden = true
+    }
 
     func setupVolumeSlider() {
         for subview in MPVolumeView().subviews {
             guard let volumeSlider = subview as? UISlider else { continue }
             mpVolumeSlider = volumeSlider
         }
-        
+
         guard let mpVolumeSlider = mpVolumeSlider else { return }
-        
+
         volumeView.addSubview(mpVolumeSlider)
-        
+
         mpVolumeSlider.translatesAutoresizingMaskIntoConstraints = false
         mpVolumeSlider.leftAnchor.constraint(equalTo: volumeView.leftAnchor).isActive = true
         mpVolumeSlider.rightAnchor.constraint(equalTo: volumeView.rightAnchor).isActive = true
         mpVolumeSlider.centerYAnchor.constraint(equalTo: volumeView.centerYAnchor).isActive = true
-        
+
         mpVolumeSlider.setThumbImage(#imageLiteral(resourceName: "slider-ball"), for: .normal)
     }
-    
-    
+
     func stationDidChange() {
         radioPlayer.radioURL = URL(string: currentStation.streamURL)
-        DispatchQueue.main.async {
-            if let url = URL(string: self.currentStation.imageURL) {
-                if let data = try? Data(contentsOf: url) {
-                    self.albumImageView.image = UIImage(data: data) ?? UIImage(named: "stationImage")
-                }
-            }
-        }
+        albumImageView.image = currentTrack.albumImage
         title = currentStation.name
     }
 
-    
     @IBAction func playingPressed(_ sender: Any) {
         delegate?.didPressPlayingButton()
     }
-    
+
     @IBAction func stopPressed(_ sender: Any) {
         delegate?.didPressStopButton()
     }
-    
+
     @IBAction func nextPressed(_ sender: Any) {
         delegate?.didPressNextButton()
     }
-    
+
     @IBAction func previousPressed(_ sender: Any) {
         delegate?.didPressPreviousButton()
     }
-    
-    
-    func load(station: RadioStation?, isNewStation: Bool = true) {
+
+    func load(station: RadioStation?, track: Track?, isNewStation: Bool = true) {
         guard let station = station else { return }
-        
+
         currentStation = station
-//        currentTrack = track
+        currentTrack = track
         newStation = isNewStation
     }
-    
+
     func updateTrackMetadata(with track: Track?) {
         guard let track = track else { return }
-        
-        currentTrack?.artist = track.artist
-        currentTrack?.title = track.title
-        
+
+        currentTrack.artist = track.artist
+        currentTrack.title = track.title
+
         updateLabels()
     }
-    
-    func updateTrackAlbum(with track: Track?) {
+
+    func updateTrackArtwork(with track: Track?) {
         guard let track = track else { return }
-        
-        currentTrack?.albumImage = track.albumImage
-        currentTrack?.albumLoaded = track.albumLoaded
-        
-        albumImageView.image = currentTrack?.albumImage
-        
+
+        currentTrack.albumImage = track.albumImage
+        currentTrack.albumLoaded = track.albumLoaded
+
+        albumImageView.image = currentTrack.albumImage
+
+        if track.albumLoaded {
         view.setNeedsDisplay()
+        }
     }
-    
+
     private func isPlayingDidChange(_ isPlaying: Bool) {
         playButton.isSelected = isPlaying
-        
     }
-    
+
     func playbackStateDidChange(_ playbackState: RadioPlaybackState, animate: Bool) {
-        
+
         let message: String?
-        
+
         switch playbackState {
         case .paused:
             message = "Station Paused..."
@@ -162,15 +146,15 @@ class NowPlayingViewController: UIViewController {
         case .stopped:
             message = "Station Stopped..."
         }
-        
+
         updateLabels(with: message)
         isPlayingDidChange(radioPlayer.isPlaying)
     }
-    
+
     func playerStateDidChange(_ state: RadioPlayerState, animate: Bool) {
-        
+
         let message: String?
-        
+
         switch state {
         case .loading:
             message = "Loading Station ..."
@@ -182,25 +166,28 @@ class NowPlayingViewController: UIViewController {
         case .error:
             message = "Error Playing"
         }
-        
+
         updateLabels(with: message)
     }
-    
+
     func updateLabels(with statusMessage: String? = nil) {
-        
         guard let statusMessage = statusMessage else {
-            
-            songLabel.text = currentStation.desc
-            artistLabel.text = currentStation.name
+            songLabel.text = currentTrack.title
+            artistLabel.text = currentTrack.artist
             return
         }
+
         guard songLabel.text != statusMessage else { return }
-        
         songLabel.text = statusMessage
-        artistLabel.text = currentStation?.name
-        
+        artistLabel.text = currentStation.name
+    }
+
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard segue.identifier == "Info", let infoController = segue.destination as? InfoViewController else { return }
+    infoController.currentStation = currentStation
+    }
+
+    @IBAction func infoButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "Info", sender: self)
     }
 }
-
-
-

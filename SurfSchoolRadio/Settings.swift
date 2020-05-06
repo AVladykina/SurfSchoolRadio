@@ -18,14 +18,13 @@ enum NetworkConstants {
     
     static let userName = "nasenkav"
     
-    static let password = "4121960Raya!"
+    static let password = ""
     
     static let baseURL = "https://ws.audioscrobbler.com/2.0/?"
 
     static let apiSig = "ef245e90b3fe82d1f5465ba36d1c30b0"
     
 }
-
 
 
 

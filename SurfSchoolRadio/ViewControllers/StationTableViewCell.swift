@@ -42,7 +42,6 @@ class StationTableViewCell: UITableViewCell {
         let imageURL = station.imageURL as NSString
         if imageURL.contains("http"), let url = URL(string: station.imageURL) {
             stationImageView.loadImageWithURL(url: url) { (image) in
-                // station image loaded
             }
         } else if imageURL != "" {
             stationImageView.image = UIImage(named: imageURL as String)
