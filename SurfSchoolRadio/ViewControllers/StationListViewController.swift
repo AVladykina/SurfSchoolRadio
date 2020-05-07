@@ -7,15 +7,16 @@
 //
 
 import UIKit
+import MediaPlayer
 import AVFoundation
 
 class StationListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    weak var nowPlayingViewController: NowPlayingViewController?
-
     let radioPlayer = SurfPlayer()
+
+    weak var nowPlayingViewController: NowPlayingViewController?
 
     var stations = [RadioStation]() {
         didSet {
@@ -25,7 +26,6 @@ class StationListViewController: UIViewController {
     }
 
     var searchedStations = [RadioStation]()
-
     var previousStation: RadioStation?
 
     var searchController: UISearchController = {
@@ -36,35 +36,63 @@ class StationListViewController: UIViewController {
         return UIRefreshControl()
     }()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
+        let cellNib = UINib(nibName: "StationTableViewCell", bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: "StationCell")
 
-        radioPlayer.delegate = self as? SurfPlayerDelegate
+        radioPlayer.delegate = self
+
+        loadStationsFromJSON()
 
         tableView.backgroundColor = .clear
         tableView.backgroundView = nil
         tableView.separatorStyle = .none
 
+        setupPullToRefresh()
+
         do {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
-             print("audioSession could not be activated")
+            print("audioSession could not be activated")
         }
 
         setupSearchController()
-
-        tableView.dataSource = self
-
-
+        setupRemoteCommandCenter()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Surf Radio"
+    }
+
+    func setupPullToRefresh() {
+        refreshControl.backgroundColor = .black
+        refreshControl.tintColor = .white
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+
+    @objc func refresh(sender: AnyObject) {
+        loadStationsFromJSON()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.refreshControl.endRefreshing()
+            self.view.setNeedsDisplay()
+        }
+    }
+
+    func loadStationsFromJSON() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DataManager.getStationDataWithSuccess() { (data) in
+            defer {
+                DispatchQueue.main.async { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
+            }
+            guard let data = data, let jsonDictionary = try? JSONDecoder().decode([String: [RadioStation]].self, from: data), let stationsArray = jsonDictionary["station"] else {
+                return
+            }
+            self.stations = stationsArray
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -79,7 +107,6 @@ class StationListViewController: UIViewController {
             newStation = radioPlayer.station != previousStation
             previousStation = radioPlayer.station
         } else {
-
             newStation = false
         }
 
@@ -92,7 +119,6 @@ class StationListViewController: UIViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
             guard let currentStation = self.radioPlayer.station else { return }
-
             if self.stations.firstIndex(of: currentStation) == nil { self.resetCurrentStation() }
         }
     }
@@ -106,10 +132,26 @@ class StationListViewController: UIViewController {
         guard let station = station, let index = stations.firstIndex(of: station) else { return nil }
         return index
     }
+
+    func setupRemoteCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget { event in
+            return .success
+        }
+        commandCenter.pauseCommand.addTarget { event in
+            return .success
+        }
+        commandCenter.nextTrackCommand.addTarget { event in
+            return .success
+        }
+        commandCenter.previousTrackCommand.addTarget { event in
+            return .success
+        }
+    }
 }
 
 extension StationListViewController: UITableViewDataSource {
-
+    @objc(tableView:heightForRowAtIndexPath:)
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90.0
     }
@@ -132,9 +174,9 @@ extension StationListViewController: UITableViewDataSource {
             return cell
 
         } else {
-
             let cell = tableView.dequeueReusableCell(withIdentifier: "StationCell", for: indexPath) as! StationTableViewCell
 
+            cell.backgroundColor = UIColor.clear
 
             let station = searchController.isActive ? searchedStations[indexPath.row] : stations[indexPath.row]
             cell.configureStationCell(station: station)
@@ -155,9 +197,7 @@ extension StationListViewController: UITableViewDelegate {
 
 extension StationListViewController: UISearchResultsUpdating {
 
-
     func setupSearchController() {
-
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
@@ -168,14 +208,7 @@ extension StationListViewController: UISearchResultsUpdating {
         searchController.hidesNavigationBarDuringPresentation = false
 
         searchController.searchBar.barTintColor = UIColor.clear
-        searchController.searchBar.tintColor = UIColor.white
-
-
-        tableView.setContentOffset(CGPoint(x: 0.0, y: searchController.searchBar.frame.size.height), animated: false)
-
-            let searchTextField = searchController.searchBar.value(forKey: "_searchField") as? UITextField
-            searchTextField?.keyboardAppearance = .dark
-        }
+    }
 
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
@@ -186,16 +219,33 @@ extension StationListViewController: UISearchResultsUpdating {
     }
 }
 
+extension StationListViewController: SurfPlayerDelegate {
 
+    func playerStateDidChange(_ playerState: RadioPlayerState) {
+        nowPlayingViewController?.playerStateDidChange(playerState, animate: true)
+    }
+
+    func playbackStateDidChange(_ playbackState: RadioPlaybackState) {
+        nowPlayingViewController?.playbackStateDidChange(playbackState, animate: true)
+    }
+
+    func trackDidUpdate(_ track: Track?) {
+        nowPlayingViewController?.updateTrackMetadata(with: track)
+    }
+
+    func trackArtworkDidUpdate(_ track: Track?) {
+        nowPlayingViewController?.updateTrackArtwork(with: track)
+    }
+}
 
 extension StationListViewController: NowPlayingViewControllerDelegate {
 
     func didPressPlayingButton() {
-        radioPlayer.surfPlayer.togglePlaying()
+        radioPlayer.player.togglePlaying()
     }
 
     func didPressStopButton() {
-        radioPlayer.surfPlayer.stop()
+        radioPlayer.player.stop()
     }
 
     func didPressNextButton() {
@@ -215,11 +265,7 @@ extension StationListViewController: NowPlayingViewControllerDelegate {
             nowPlayingVC.load(station: radioPlayer.station, track: radioPlayer.track)
             nowPlayingVC.stationDidChange()
         } else if let station = radioPlayer.station {
-            radioPlayer.surfPlayer.radioURL = URL(string: station.streamURL)
+            radioPlayer.player.radioURL = URL(string: station.streamURL)
         }
     }
 }
-
-
-
-

@@ -8,37 +8,35 @@
 
 import UIKit
 
-
 protocol SurfPlayerDelegate: class {
     func playerStateDidChange(_ playerState: RadioPlayerState)
     func playbackStateDidChange(_ playbackState: RadioPlaybackState)
     func trackDidUpdate(_ track: Track?)
-    func trackAlbumDidUpdate(_ track: Track?)
+    func trackArtworkDidUpdate(_ track: Track?)
 }
 
 class SurfPlayer {
-    
+
     weak var delegate: SurfPlayerDelegate?
-    
-    let surfPlayer = RadioPlayer.shared
-    
+
+    let player = RadioPlayer.shared
+
     var station: RadioStation? {
         didSet { resetTrack(with: station) }
     }
-    
+
     private(set) var track: Track?
-    
+
     init() {
-        surfPlayer.delegate = self as? RadioPlayerDelegate
+        player.delegate = self
     }
-    
+
     func resetRadioPlayer() {
         station = nil
         track = nil
-        surfPlayer.radioURL = nil
+        player.radioURL = nil
     }
-    
-    
+
     func updateTrackMetadata(artistName: String, trackName: String) {
         if track == nil {
             track = Track(title: trackName, artist: artistName)
@@ -46,64 +44,70 @@ class SurfPlayer {
             track?.title = trackName
             track?.artist = artistName
         }
-        
+
         delegate?.trackDidUpdate(track)
     }
-    
-    
-    func updateTrackAlbum(with image: UIImage, albumLoaded: Bool) {
+
+    func updateTrackArtwork(with image: UIImage, artworkLoaded: Bool) {
         track?.albumImage = image
-        track?.albumLoaded = albumLoaded
-        delegate?.trackAlbumDidUpdate(track)
+        track?.albumLoaded = artworkLoaded
+        delegate?.trackArtworkDidUpdate(track)
     }
-    
-    
+
     func resetTrack(with station: RadioStation?) {
         guard let station = station else { track = nil; return }
         updateTrackMetadata(artistName: station.desc, trackName: station.name)
-        resetAlbum(with: station)
+        resetArtwork(with: station)
     }
-    
-    
-    func resetAlbum(with station: RadioStation?) {
+
+    func resetArtwork(with station: RadioStation?) {
         guard let station = station else { track = nil; return }
         getStationImage(from: station) { image in
-            self.updateTrackAlbum(with: image, albumLoaded: false)
+            self.updateTrackArtwork(with: image, artworkLoaded: false)
         }
     }
-    
-    
+
     private func getStationImage(from station: RadioStation, completionHandler: @escaping (_ image: UIImage) -> ()) {
-        
+
         if station.imageURL.range(of: "http") != nil {
-            
-            downloadImage( station.imageURL) { (image, stringURL) in
+            ImageLoader.sharedLoader.imageForUrl(urlString: station.imageURL) { (image, stringURL) in
                 completionHandler(image ?? #imageLiteral(resourceName: "albumArt"))
             }
-            
         } else {
-            
             let image = UIImage(named: station.imageURL) ?? #imageLiteral(resourceName: "albumArt")
             completionHandler(image)
         }
     }
-    
-    
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+}
+
+extension SurfPlayer: RadioPlayerDelegate {
+
+    func radioPlayer(_ player: RadioPlayer, playerStateDidChange state: RadioPlayerState) {
+        delegate?.playerStateDidChange(state)
     }
-    
-    func downloadImage(_ urlString: String, completionHandler: @escaping(_ image: UIImage?, _ url: String) -> ()) {
-        let fileUrl = URL(string: urlString)
-        getData(from: fileUrl!) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? fileUrl!.lastPathComponent)
-            DispatchQueue.main.async() {
-                self.track?.albumImage = UIImage(data: data)
-            }
+
+    func radioPlayer(_ player: RadioPlayer, playbackStateDidChange state: RadioPlaybackState) {
+        delegate?.playbackStateDidChange(state)
+    }
+
+    func radioPlayer(_ player: RadioPlayer, metadataDidChange artistName: String?, trackName: String?) {
+        guard
+            let artistName = artistName, !artistName.isEmpty,
+            let trackName = trackName, !trackName.isEmpty else {
+                resetTrack(with: station)
+                return
+        }
+
+        updateTrackMetadata(artistName: artistName, trackName: trackName)
+    }
+
+    func radioPlayer(_ player: RadioPlayer, artworkDidChange artworkURL: URL?) {
+        guard let artworkURL = artworkURL else { resetArtwork(with: station); return }
+
+        ImageLoader.sharedLoader.imageForUrl(urlString: artworkURL.absoluteString) { (image, stringURL) in
+            guard let image = image else { self.resetArtwork(with: self.station); return }
+            self.updateTrackArtwork(with: image, artworkLoaded: true)
         }
     }
 }
-
-
 
