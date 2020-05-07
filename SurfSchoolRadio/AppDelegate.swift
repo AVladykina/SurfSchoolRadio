@@ -36,31 +36,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
 }
-
-func login() {
-
-    let method = "auth.getMobileSession"
-
-    let urlParameter = "method=\(method)&api_key=" + NetworkConstants.apiKey + "&password=" + NetworkConstants.password + "&username=" + NetworkConstants.userName + "&api_sig=" + NetworkConstants.apiSig
-    print("urlParameter = \(urlParameter)")
-    let fullURL = "\(NetworkConstants.baseURL)\(urlParameter)"
-
-    let session = URLSession.shared
-
-    var request = URLRequest(url: URL(string: fullURL)!)
-
-    request.httpMethod = "POST"
-
-    let task = session.dataTask(with: request) { (data, response, error) in
-
-        do {
-
-            print(String(data: data!, encoding: String.Encoding.utf8)!)
-
-
-        }
-    }
-
-    task.resume()
-
-}

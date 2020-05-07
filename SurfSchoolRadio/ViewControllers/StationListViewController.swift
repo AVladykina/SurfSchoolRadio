@@ -68,7 +68,6 @@ class StationListViewController: UIViewController {
     }
 
     func setupPullToRefresh() {
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: [.foregroundColor: UIColor.white])
         refreshControl.backgroundColor = .black
         refreshControl.tintColor = .white
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -89,9 +88,7 @@ class StationListViewController: UIViewController {
             defer {
                 DispatchQueue.main.async { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
             }
-            print("Stations JSON Found")
             guard let data = data, let jsonDictionary = try? JSONDecoder().decode([String: [RadioStation]].self, from: data), let stationsArray = jsonDictionary["station"] else {
-                print("JSON Station Loading Error") 
                 return
             }
             self.stations = stationsArray
@@ -211,11 +208,6 @@ extension StationListViewController: UISearchResultsUpdating {
         searchController.hidesNavigationBarDuringPresentation = false
 
         searchController.searchBar.barTintColor = UIColor.clear
-        searchController.searchBar.tintColor = UIColor.white
-
-        tableView.setContentOffset(CGPoint(x: 0.0, y: searchController.searchBar.frame.size.height), animated: false)
-            let searchTextField = searchController.searchBar.value(forKey: "_searchField") as? UITextField
-            searchTextField?.keyboardAppearance = .dark
     }
 
     func updateSearchResults(for searchController: UISearchController) {
