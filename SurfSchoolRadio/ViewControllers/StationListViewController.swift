@@ -14,6 +14,10 @@ class StationListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var playButton: UIButton!
+
+    @IBOutlet weak var stopButton: UIButton!
+
     let radioPlayer = SurfPlayer()
 
     weak var nowPlayingViewController: NowPlayingViewController?
@@ -67,6 +71,14 @@ class StationListViewController: UIViewController {
         title = "Surf Radio"
     }
 
+    @IBAction func playPressed(_ sender: Any) {
+        radioPlayer.player.togglePlaying()
+    }
+    
+    @IBAction func stoppPressed(_ sender: Any) {
+        radioPlayer.player.stop()
+    }
+    
     func setupPullToRefresh() {
         refreshControl.backgroundColor = .black
         refreshControl.tintColor = .white
